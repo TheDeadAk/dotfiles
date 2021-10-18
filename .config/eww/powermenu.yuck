@@ -1,0 +1,127 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;                        Main power widget                          ;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defwidget multi []
+    (box    :class "multi"
+            :orientation "v"
+            :space-evenly true
+            :spacing {space}
+        (button 
+            :class "style ${power-off}"
+            :onclick "bash ~/.config/eww/scripts/menu pc"
+            :tooltip "Poweroff" "")
+        (button 
+            :class "style ${reset-off}" 
+            :onclick "bash ~/.config/eww/scripts/menu rc" 
+            :tooltip "Restart" "")
+        (button
+            :class "style logout ${logout-off}"
+            :onclick "bash ~/.config/eww/scripts/menu lc"
+            :tooltip "Logout" "")
+        (button
+            :class "style"
+            :onclick "bash ~/.config/eww/scripts/menu pcc"
+            :tooltip "Cancel" "")))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;                    Poweroff submenu widget                        ;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defwidget power_multi []
+    (box    :class "multi"
+            :orientation "v"
+            :space-evenly true
+            :spacing {space}
+        (button
+            :class "style"
+            :onclick "poweroff"
+            :tooltip "Poweroff" "")
+        (button
+            :class "style"
+            :onclick "bash ~/.config/eww/scripts/menu pcfc"
+            :tooltip "Cancel" "")))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;                      Reset submenu widget                         ;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defwidget reset_multi []
+    (box    :class "multi"
+            :orientation "v"
+            :space-evenly true
+            :spacing {space}
+        (label)
+        (button
+            :class "style"
+            :onclick "systemctl reboot"
+            :tooltip "Restart" "")
+        (button
+            :class "style"
+            :onclick "bash ~/.config/eww/scripts/menu rcfc"
+            :tooltip "Cancel" "")))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;                    Logout submenu widget                          ;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defwidget logout_multi []
+    (box    :class "multi"
+            :orientation "v"
+            :space-evenly true
+            :spacing {space}    
+        (label)
+        (label)
+        (button
+            :class "style"
+            :onclick "openbox --exit"
+            :tooltip "Logout" "")
+        (button
+            :class "style"
+            :onclick "bash ~/.config/eww/scripts/menu lcfc"
+            :tooltip "Cancel" "")))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;                        Window definitions                         ;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defwindow power-menu 
+        :geometry (
+            geometry 
+                :x "-10px" 
+                :y "50px" 
+                :width "50px" 
+                :height "50px" 
+                :anchor "top right")
+        :stacking "bg"
+        :wm-ignore true
+            (multi))
+(defwindow power-off
+        :geometry (
+            geometry 
+                :x "-60px" 
+                :y "50px" 
+                :width "50px" 
+                :height "50px" 
+                :anchor "top right")
+            (power_multi))
+(defwindow reset-off
+        :geometry (
+            geometry 
+                :x "-60px" 
+                :y "50px" 
+                :width "50px" 
+                :height "50px" 
+                :anchor "top right")
+            (reset_multi))
+(defwindow logout-off
+        :geometry (
+            geometry 
+                :x "-60px" 
+                :y "50px" 
+                :width "50px" 
+                :height "50px" 
+                :anchor "top right")
+            (logout_multi))

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openbox_menu xmlns="http://openbox.org/3.4/menu">
+
+<menu id="res-programs" label="Programs">
+  <seperator label="Coding"/>
+  <item label="VSCode">
+    <action name="Execute">
+      <command>code</command
+    </action>
+  </item>
+  <seperator label="Browsing"/>
+  <item label="Firefox">
+    <action name="Execute">
+      <execute>firefox-developer-edition</execute>
+    </action>
+  </item>
+  <item label="Editor">
+    <action name="Execute">
+      <execute>emacs</execute>
+    </action>
+  </item>
+  <item label="Kitty">
+    <action name="Execute">
+      <command>kitty -e fish</command>
+    </action>
+  </item>
+  <item label="GIMP">
+    <action name="Execute">
+      <execute>gimp</execute>
+    </action>
+  </item>
+</menu>
+    
+
+<menu id="res-menu" label="Resolution">
+  <seperator label="Resolution"/>
+  <item label="1024x768">
+    <action name="Execute">
+       <execute>xrandr -s 1024x768</execute>
+    </action>
+  </item>
+  <item label="1280x1024">
+    <action name="Execute">
+       <execute>xrandr -s 1280x1024</execute>
+    </action>
+  </item>
+  <item label="1920x1080">
+    <action name="Execute">
+       <execute>xrandr -s 1920x1080</execute>
+    </action>
+  </item>
+  <item label="2560x1440">
+    <action name="Execute">
+       <execute>xrandr -s 2560x1440</execute>
+    </action>
+  </item>
+  <item label="Background resize">
+    <action name="Execute">
+      <execute>sh ~/Scripts/.fehbg</execute>
+    </action>
+  </item>
+</menu>
+
+<menu id="exit-menu" label="Exit">
+  <item label="Log Out">
+		<action name="Execute">
+			<command>openbox --exit</command>
+		</action>
+	</item>
+	<item label="Restart">
+		<action name="Execute">
+		        <command>systemctl reboot</command>
+		</action>
+	</item>
+	<item label="Suspend">
+		<action name="Execute">
+		        <command>systemctl suspend</command>
+		</action>
+	</item>
+	<item label="Hibernate">
+		<action name="Execute">
+		        <command>systemctl hibernate</command>
+		</action>
+	</item>
+	<item label="Shutdown">
+		<action name="Execute">
+			<command>systemctl poweroff</command>
+		</action>
+	</item>
+</menu>
+
+<menu id="ob-menu" label="Openbox">
+  <item label="Openbox Config">
+    <action name="Execute">
+      <command>obconf</command>
+    </action>
+  </item>
+  <item label="Reconfigure Openbox">
+    <action name="Reconfigure" />
+  </item>
+</menu>
+
+<menu id="root-menu" label="Openbox 3">
+  <separator label="Applications" />
+  <menu id="res-programs"/>
+  <separator label="System" />
+  <menu id="res-menu"/>
+  <menu id="ob-menu"/>
+  <separator />
+  <menu id="exit-menu"/>
+</menu>
+
+</openbox_menu>

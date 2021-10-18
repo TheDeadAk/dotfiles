@@ -1,0 +1,167 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;                          Left widget                              ;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defwidget left []
+    (box
+        :class "topbar left"
+        :orientation "h"
+        (button
+            :tooltip "Firefox"
+            :class "btn"
+            :onclick "bash ~/.config/eww/scripts/menu r firefox-developer-edition" "")
+        (button
+            :tooltip "Thunderbird"
+            :class "btn"
+            :onclick "bash ~/.config/eww/scripts/menu r thunderbird" "")
+        (button
+            :tooltip "Libre Office"
+            :class "btn"
+            :onclick "bash ~/.config/eww/scripts/menu r libreoffice" "") ;;FontAwesome UNICODE U+f15b
+        (button
+            :tooltip "GIMP"
+            :class "btn"
+            :onclick "bash ~/.config/eww/scripts/menu r gimp" "") ;;FontAwesome UNICODE U+f040
+        (button
+            :tooltip "VS Code"
+            :class "btn"
+            :onclick "bash ~/.config/eww/scripts/menu r code" "")
+        (button
+            :tooltip "Kitty"
+            :class "btn"
+            :onclick "bash ~/.config/eww/scripts/menu r kitty" "")
+        (button
+            :tooltip "Alacritty"
+            :class "btn"
+            :onclick "bash ~/.config/eww/scripts/menu r alacritty" "")
+        (button
+            :tooltip "Gummi"
+            :class "btn"
+            :onclick "bash ~/.config/eww/scripts/menu r gummi" "")
+        (button
+            :tooltip "Thunar"
+            :class "btn"
+            :onclick "bash ~/.config/eww/scripts/menu r thunar" "")
+        (button
+            :tooltip "Discord"
+            :class "btn"
+            :onclick "bash ~/.config/eww/scripts/menu r discord" "")
+        (button
+            :tooltip "BirdFont"
+            :class "btn"
+            :timeout "5s"
+            :onclick "bash ~/.config/eww/scripts/menu r birdfont" "")
+    )
+)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;                         Center widget                             ;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defwidget center []
+    (box
+        :class "topbar center"
+        :orientation "v"
+        timecombined))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;                        Poll variables                             ;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defpoll timecombined :interval "5s" "date '+%H:%M  |  %d. %B, %Y'")
+(defpoll cpu :interval "1s" "sh ~/.config/eww/scripts/sys_info --cpu")
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;                         Right widget                              ;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defwidget right []
+    (box
+        :class "topbar right"
+        :orientation "h"
+        (metric
+            :label ""
+            :value {cpu}
+            :onchange ""
+            :onclick "" )
+        (metric
+            :label ""
+            :value {EWW_RAM.used_mem_perc}
+            :onchange ""
+            :onclick "" )
+        (metric 
+            :label ""
+            :value {round((1 - (EWW_DISK["/"].free / EWW_DISK["/"].total)) * 100, 0)}
+            :onchange ""
+            :onclick "bash ~/.config/eww/scripts/menu r thunar $HOME" )
+        (button
+            :tooltip "Change bg"
+            :class "btn"
+            :onclick "bash ~/.config/eww/scripts.menu sr" "BG")
+        (button
+            :tooltip "Power menu"
+            :class "btn"
+            :onclick "bash ~/.config/eww/scripts/menu pm" "")))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;                          Left window                              ;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defwindow left
+    :windowtype "dock"
+    :geometry (
+        geometry
+            :x "20px"
+            :y "0px"
+            :width "250px"
+            :height "30px"
+            :anchor "top left")
+    (left))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;                         Center window                             ;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defwindow center
+    :windowtype "dock"
+    :geometry (
+        geometry
+            :x "0px"
+            :y "0px"
+            :width "250px"
+            :height "30px"
+            :anchor "top center")
+    (center))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;                         Right window                              ;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defwindow right
+    :windowtype "dock"
+    :geometry (
+        geometry
+            :x "-20px"
+            :y "0px"
+            :width "250px"
+            :height "30px"
+            :anchor "top right"
+    )(right))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;                        Metric widget                              ;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defwidget metric [label value onchange onclick]
+  (box :orientation "h"
+       :class "metric"
+       :space-evenly false
+    (button :class "label btn" :onclick onclick label )
+    (scale 
+        :class "one"
+        :min 0
+        :max 101
+        :active {onchange != ""}
+        :value value
+        :onchange onchange)))

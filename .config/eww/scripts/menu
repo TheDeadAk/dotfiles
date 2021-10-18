@@ -1,0 +1,128 @@
+#!/bin/bash
+if [[ ! -f "eww" ]]; then
+    EWW=eww
+else
+    EWW="$HOME/.bin/eww/eww"
+fi
+CONF="$HOME/.config/eww/config.cfg"
+
+launch(){
+    RUNNING=$(echo "{line[@]}" | pidof eww )
+    if [[ ! $RUNNING ]]; then
+        ${EWW} daemon
+    fi
+    RUNNING=$(echo "{line[@]}" | pidof xcompmgr )
+    if [[ ! $RUNNING ]]; then
+        xcompmgr &
+    fi
+
+    ${EWW} open-many left center right
+}
+
+open(){
+    ${EWW} open "$1"
+}
+
+close(){
+    ${EWW} close "$1"
+}
+
+close_all(){
+    WIN=$(echo -n "{line[@]}" | ${EWW} windows | grep "*" | cut -c 2- | tr "\n" " " )
+    NOT="left center right"
+    for e in $WIN; do
+        if ! echo $NOT | grep -w $e > /dev/null; then
+            close $e
+        fi
+    done
+}
+
+update(){
+    ${EWW} update "$1"="$2"
+}
+
+run(){
+    "$@"
+}
+
+powerMenu(){
+    CHECK=$(echo "{line[@]}" | ${EWW} state -a | grep "menu-active" | cut -c 14- )
+    if [[ "$CHECK" == "false" ]]; then
+        open power-menu
+        update menu-active true
+    else
+        close power-menu
+        update menu-active false
+    fi
+}
+
+clearActive(){
+    CHECK=$(echo "{line[@]}" | ${EWW} state | grep "active" | rev | cut -c 9- | rev )
+    for v in $CHECK; do
+        update "$v"
+        close "$v"
+    done
+}
+
+setResolution(){
+    if [[ ! -f "$CONF" ]]; then
+        echo "Resolutions: 1280x720 | 1280x1024 | 1920x1440 | 1920x1080 | 2560x1440"
+        read -p "Set resolution: ";
+        RES="$REPLY"
+    else
+        RES=$(cat "$CONF")
+    fi
+    xrandr -s "$RES"
+    sh ~/scripts/.fehbg
+    ${EWW} reload
+}
+case "$@" in
+    "start" | "launch" | "setup")
+        launch;;
+    "pm")
+        clearActive
+        powerMenu;;
+    "pc")
+        clearActive
+        update power-off active
+        open power-off;;
+    "rc")
+        clearActive
+        update reset-off active
+        open reset-off;;
+    "lc")
+        clearActive
+        update logout-off active
+        open logout-off;;
+    "pcc")
+        clearActive
+        powerMenu
+        close_all;;
+    "pcfc")
+        update mp
+        close power-off;;
+    "rcfc")
+        update mr
+        close reset-off;;
+    "lcfc")
+        update ml
+        close logout-off;;
+    "sr")
+        setResolution;;
+esac
+
+case "$1" in
+    "r")
+        run "${@:2}";;
+    "d")
+        close_all
+        run "${@:2}";;
+    "o")
+        open "${@:2}";;
+    "c")
+        close "${@:2}";;
+    "u")
+        update "${@:2}";;
+esac
+
+exit;
