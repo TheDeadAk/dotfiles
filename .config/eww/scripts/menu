@@ -16,6 +16,8 @@ launch(){
         xcompmgr &
     fi
 
+    setResolution
+
     ${EWW} open-many left center right
 }
 
@@ -26,6 +28,10 @@ open(){
 close(){
     ${EWW} close "$1"
 }
+
+# toggle(){
+#     # ${EWW} update
+# }
 
 close_all(){
     WIN=$(echo -n "{line[@]}" | ${EWW} windows | grep "*" | cut -c 2- | tr "\n" " " )

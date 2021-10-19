@@ -16,3 +16,4 @@
 (include "powermenu.yuck")
 (include "tray.yuck")
 (include "widget.yuck")
+(include "testing.yuck")

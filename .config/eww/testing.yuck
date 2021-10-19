@@ -1,0 +1,32 @@
+(defvar tt "false")
+
+(defwidget all[]
+    (box
+        :class "t"
+        (button
+            :class "btn"
+            :onclick "eww update tt=true"
+            "TEST")
+        (revealer
+            :transition "crossfade"
+            :reveal tt
+            :duration "3s"
+            (box
+                (label
+                    :text timecombined)
+                ))
+    )
+)
+
+(defwindow all
+    :class "testing"
+    :geometry (
+        geometry
+        :x "-150px"
+        :y "-150px"
+        :width "400px"
+        :height "400px"
+        :anchor "bottom right"
+    )
+    (all)
+)
