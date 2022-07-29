@@ -8,22 +8,10 @@
             :orientation "v"
             :space-evenly true
             :spacing {space}
-        (button 
-            :class "style ${power-off}"
-            :onclick "bash ~/.config/eww/scripts/menu pc"
-            :tooltip "Poweroff" "")
-        (button 
-            :class "style ${reset-off}" 
-            :onclick "bash ~/.config/eww/scripts/menu rc" 
-            :tooltip "Restart" "")
-        (button
-            :class "style logout ${logout-off}"
-            :onclick "bash ~/.config/eww/scripts/menu lc"
-            :tooltip "Logout" "")
-        (button
-            :class "style"
-            :onclick "bash ~/.config/eww/scripts/menu pcc"
-            :tooltip "Cancel" "")))
+        (button :class "style ${power-off}"         :onclick "bash ~/.config/eww/scripts/menu pc"   :tooltip "Poweroff" "")
+        (button :class "style ${reset-off}"         :onclick "bash ~/.config/eww/scripts/menu rc"   :tooltip "Restart" "")
+        (button :class "style logout ${logout-off}" :onclick "bash ~/.config/eww/scripts/menu lc"   :tooltip "Logout" "")
+        (button :class "style"                      :onclick "bash ~/.config/eww/scripts/menu pcc"  :tooltip "Cancel" "")))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;                    Poweroff submenu widget                        ;;;;;
@@ -34,14 +22,10 @@
             :orientation "v"
             :space-evenly true
             :spacing {space}
-        (button
-            :class "style"
-            :onclick "poweroff"
-            :tooltip "Poweroff" "")
-        (button
-            :class "style"
-            :onclick "bash ~/.config/eww/scripts/menu pcfc"
-            :tooltip "Cancel" "")))
+        (okcancel
+            :oktip "Poweroff"
+            :okclick "poweroff"
+            :cancelclick "bash ~/.config/eww/scripts/menu pcfc")))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;                      Reset submenu widget                         ;;;;;
@@ -53,14 +37,10 @@
             :space-evenly true
             :spacing {space}
         (label)
-        (button
-            :class "style"
-            :onclick "systemctl reboot"
-            :tooltip "Restart" "")
-        (button
-            :class "style"
-            :onclick "bash ~/.config/eww/scripts/menu rcfc"
-            :tooltip "Cancel" "")))
+        (okcancel
+            :oktip "Restart"
+            :okclick "systemctl reboot"
+            :cancelclick "bash ~/.config/eww/scripts/menu rcfc")))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;                    Logout submenu widget                          ;;;;;
@@ -70,18 +50,28 @@
     (box    :class "multi"
             :orientation "v"
             :space-evenly true
-            :spacing {space}    
+            :spacing {space}
         (label)
         (label)
-        (button
-            :class "style"
-            :onclick "openbox --exit"
-            :tooltip "Logout" "")
-        (button
-            :class "style"
-            :onclick "bash ~/.config/eww/scripts/menu lcfc"
-            :tooltip "Cancel" "")))
-
+        (okcancel
+            :oktip "Logout"
+            :okclick "openbox --exit"
+            :cancelclick "bash ~/.config/eww/scripts/menu lcfc")
+        ))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;                        OK Cancel widget                           ;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defwidget okcancel[?class oktip ?canceltip okclick cancelclick]
+    (box
+        :orientation "h"
+        :space-evenly true
+        :spacing {space}
+        (button :class "${class} style" :onclick "${okclick}"     :tooltip "${oktip}" "")
+        (button :class "${class} style" :onclick "${cancelclick}" :tooltip {canceltip ?: "Cancel"} "")
+    )
+)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;                        Window definitions                         ;;;;;
@@ -101,27 +91,27 @@
 (defwindow power-off
         :geometry (
             geometry 
-                :x "-60px" 
+                :x "-65px" 
                 :y "50px" 
-                :width "50px" 
-                :height "50px" 
+                :width "110px" 
+                :height "40px" 
                 :anchor "top right")
             (power_multi))
 (defwindow reset-off
         :geometry (
             geometry 
-                :x "-60px" 
+                :x "-65px" 
                 :y "50px" 
-                :width "50px" 
-                :height "50px" 
+                :width "110px" 
+                :height "45px" 
                 :anchor "top right")
             (reset_multi))
 (defwindow logout-off
         :geometry (
             geometry 
-                :x "-60px" 
+                :x "-65px" 
                 :y "50px" 
-                :width "50px" 
-                :height "50px" 
+                :width "110px" 
+                :height "45px" 
                 :anchor "top right")
             (logout_multi))

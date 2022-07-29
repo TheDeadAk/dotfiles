@@ -3,7 +3,7 @@
   font-family: fontawesome;
 }
 
-@import 'widget';
+/*@import 'widget';*/
 
 window{
   background-color: transparent;
@@ -17,14 +17,14 @@ window{
 .metric scale trough {
   all: unset;
   background-color: #4e4e4e;
-  border-radius: 50px;
+  border-radius: 5px;
   min-height: 5px;
   min-width: 20px;
-  margin-left: 5px;
+  margin-left: 4px;
   margin-right: 0px;
 }
 .metric{
-  padding: 0px 0px 0px 15px;
+  padding: 0px 0px 0px 10px;
 }
 .btn:hover {
   color: #013d96;
@@ -33,15 +33,16 @@ window{
 .topbar{
   all:unset;
   color: #a09696;
-  border: 1px solid #013d96;
-  border-left-color: #0d60dd;
-  border-right-color: #0d60dd;
+  border-left: 1px solid #0d60dd;
+  border-right: 1px solid #0d60dd;
   border-radius: 15px;
   padding: 0px 10px
 }
 .topbar.left{
   border-left: none;
   border-top: none;
+  background-color: black;
+  padding: 5px;
 }
 .topbar.right{
   border-right: none;
@@ -51,6 +52,7 @@ window{
   border-top: none;
   font-size: 1em;
   font-weight: bold;
+  padding: 0px 30px;
 }
 
 .style{
@@ -71,8 +73,19 @@ window{
   border-color: #013d96;
   border-radius: 25px;
 }
-
-/* TESTING AREA */
-.t {
-  background-color: red;
+.test{
+  all: unset;
+  font-weight: 700;
+}
+.one{
+  all: unset;
+  color:green;
+}
+.two{
+  all: unset;
+  color: orangered;
+}
+.three{
+  all: unset;
+  color: red;
 }

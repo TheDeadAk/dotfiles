@@ -3,16 +3,6 @@
 # Checks the screen resolution and runs function according to the result
 checkScreen(){
     local res=$(xrandr -q | grep "*")
-    
-    # if [[ $res == *"x1024"* ]]; then
-    #     echo "1280x1024"
-    # fi
-    # if [[ $res == *"x1080"* ]]; then
-    #     echo "1920x1080"
-    # fi
-    # if [[ $res == *"x1440"* ]]; then
-    #     echo "2560x1440"
-    # fi
 
     case "$res" in
         *"x1014"*)
@@ -34,7 +24,7 @@ getMargin(){
     # Openbox get margins
     local conf=~/.config/openbox/rc.xml
     if [[ ! -f "$conf" ]]; then
-        conf=/etc/xdg/openbox/rc/xml    
+        conf=/etc/xdg/openbox/rc.xml    
     fi
 
     local cat=$(cat "$conf" | grep "<$@>" | grep -Eo '[0-9]{1,4}')
@@ -47,8 +37,9 @@ runningProcess(){
 }
 
 run(){
-    $@ &
+    eval $@ &
     echo "RUNNING $@"
+    exit
 }
 
 tilingLeft(){
@@ -75,8 +66,49 @@ tilingLeft(){
     echo "$TOP_MARGIN $LEFT_MARGIN $RIGHT_MARGIN $BOTTOM_MARGIN $TITLE_BAR_HEIGHT $USELESS_GAPS $MASTER_WIDTH $MASTER_HEIGHT"
 }
 
+keybindings(){
+    if command -v firefox &> /dev/null; then
+        __browser="firefox"
+    elif command -v min &> /dev/null; then
+        __browser="min"
+    elif command -v firefox-developer-edition &> /dev/null; then
+	__browser="firefox-developer-edition"
+    else
+	echo "No browser fund. Installing one"
+	eval "sudo pacman -S firefox"
+        __browser="$__term sudo pacman -S firefox"
+    fi
+    if command -v kitty &> /dev/null; then
+        __term="kitty"
+    elif command -v alacritty; then
+        __term="alacritty"
+    fi
+    case "$@" in
+        "t"|"term"|"terminal")
+            eval $__term
+            exit;;
+        "b"|"browser")
+            eval $__browser
+            exit;;
+        *)
+            echo "$@"
+    esac
+}
+
 default(){
-    echo "DEFAULT"
+    echo ""
+    echo "This is the functions available in this file."
+    echo ""
+    echo "  --r  | -run                 run specific applications"
+    echo "  --rp | -runningProcess      lookup specificed process"
+    echo "  --gm | -getMargin           gets margin from openbox configuration file ( left | right | top | bottom )"
+    echo "  --cs | -checkScreen         checks screenresolution and runs function"
+    echo "  --kb | -keybindings         gets installed program ( terminal | browser )"
+    echo "  --csp                       checkscreen taking a parameter"
+    echo "  --tl                        tiling instans that are not working correctly"
+    echo "  --ssha                      start the ssh agent"
+    echo "  --sshadd                    add private key to ssh agent"
+    echo ""
 }
 
 case "$1" in
@@ -104,7 +136,10 @@ case "$1" in
     "--sshadd")
         addSSHKey
         exit;;
-    * | "-h" | "--help")
+    "--kb"|"-keybindings")
+        keybindings "$2"
+        exit;;
+    * | "--h" | "-help")
         default
         exit;;
 esac

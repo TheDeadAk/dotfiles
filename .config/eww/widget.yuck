@@ -3,40 +3,40 @@
 ;;;;;                            Variables                              ;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defvar IMAGE "images/profile.jpg")
-(defvar NAME "Alex Kristiansen")
+(defvar _IMAGE "images/profile.jpg")
+(defvar _NAME "Alex Kristiansen")
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;                         Poll variables                            ;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defpoll UNAME :interval "5m" "whoami")
-(defpoll HOST :interval "5s" "hostname")
-(defpoll CPU_USAGE :interval "1s" "sh ~/.config/eww/scripts/sys_info --cpu")
-(defpoll MEM_USAGE :interval "1s" "sh ~/.config/eww/scripts/sys_info --mem")
-(defpoll BLIGHT :interval "1s" "sh ~/.config/eww/scripts/sys_info --blight")
-(defpoll BATTERY :interval "1s" "sh ~/.config/eww/scripts/sys_info --bat")
-(defpoll HOUR :interval "10s" "date '+%I'")
-(defpoll MIN :interval "10s" "date '+%M'")
-(defpoll MER :interval "10s" "date '+%P'")
-(defpoll DAY :interval "10s" "date '+%A'")
-(defpoll UPHOUR :interval "5s" "uptime -p | awk '{print $2 \" \" $3}' | sed 's/,//g'")
-(defpoll UPMIN :interval "5s" "uptime -p | awk '{print $4 \" \" $5}'")
-(defpoll SONG :interval "1s" "sh ~/.config/eww/scripts/music_info --song")
-(defpoll ARTIST :interval "1s" "sh ~/.config/eww/scripts/music_info --artist")
-(defpoll STATUS :interval "1s" "sh ~/.config/eww/scripts/music_info --status")
-(defpoll CURRENT :interval "1s" "sh ~/.config/eww/scripts/music_info --time")
-(defpoll COVER :interval "1s" "sh ~/.config/eww/scripts/music_info --cover")
-(defpoll CTIME :interval "1s" "sh ~/.config/eww/scripts/music_info --ctime")
-(defpoll TTIME :interval "1s" "sh ~/.config/eww/scripts/music_info --ttime")
-(defpoll ICON :interval "15m" "")
-(defpoll STAT :interval "15m" "")
-(defpoll TEMP :interval "15m" "")
-(defpoll HEX :interval "15m" "")
-(defpoll QUOTE :interval "15m" "")
-(defpoll QUOTE2 :interval "15m" "")
-(defpoll MAILS :interval "5m" "")
-(defpoll FREE :interval "5m" "df -h / | awk '{print $4}' | tail -n 1 | sed 's/G/GB/'")
+(defpoll _UNAME :interval "5m" "whoami")
+(defpoll _HOST :interval "5s" "hostname")
+(defpoll _CPU_USAGE :interval "1s" "sh ~/.config/eww/scripts/sys_info --cpu")
+(defpoll _MEM_USAGE :interval "1s" "sh ~/.config/eww/scripts/sys_info --mem")
+(defpoll _BLIGHT :interval "1s" "sh ~/.config/eww/scripts/sys_info --blight")
+(defpoll _BATTERY :interval "1s" "sh ~/.config/eww/scripts/sys_info --bat")
+(defpoll _HOUR :interval "10s" "date '+%I'")
+(defpoll _MIN :interval "10s" "date '+%M'")
+(defpoll _MER :interval "10s" "date '+%P'")
+(defpoll _DAY :interval "10s" "date '+%A'")
+(defpoll _UPHOUR :interval "5s" "uptime -p | awk '{print $2 \" \" $3}' | sed 's/,//g'")
+(defpoll _UPMIN :interval "5s" "uptime -p | awk '{print $4 \" \" $5}'")
+(defpoll _SONG :interval "1s" "sh ~/.config/eww/scripts/music_info --song")
+(defpoll _ARTIST :interval "1s" "sh ~/.config/eww/scripts/music_info --artist")
+(defpoll _STATUS :interval "1s" "sh ~/.config/eww/scripts/music_info --status")
+(defpoll _CURRENT :interval "1s" "sh ~/.config/eww/scripts/music_info --time")
+(defpoll _COVER :interval "1s" "sh ~/.config/eww/scripts/music_info --cover")
+(defpoll _CTIME :interval "1s" "sh ~/.config/eww/scripts/music_info --ctime")
+(defpoll _TTIME :interval "1s" "sh ~/.config/eww/scripts/music_info --ttime")
+(defpoll _ICON :interval "15m" "")
+(defpoll _STAT :interval "15m" "")
+(defpoll _TEMP :interval "15m" "")
+(defpoll _HEX :interval "15m" "")
+(defpoll _QUOTE :interval "15m" "")
+(defpoll _QUOTE2 :interval "15m" "")
+(defpoll _MAILS :interval "5m" "")
+(defpoll _FREE :interval "5m" "df -h / | awk '{print $4}' | tail -n 1 | sed 's/G/GB/'")
 
 (defwidget user[]
     (box
@@ -54,13 +54,13 @@
             :halign "center"
             :wrap "true"
             :limit-width "25"
-            :text NAME)
+            :text _NAME)
         (label
             :class "username"
             :halign "center"
             :wrap "true"
             :limit-width "25"
-            :text "@${UNAME}")))
+            :text "@${_UNAME}")))
 
 (defwindow profile
     :class "widget"
@@ -92,12 +92,12 @@
                 :bcls "cpu_bar"
                 :cls "iconcpu"
                 :txt "CPU"
-                :val CPU_USAGE)
+                :val _CPU_USAGE)
             (scaler
                 :bcls "mem_bar"
                 :cls "iconmem"
                 :txt "MEM"
-                :val MEM_USAGE)
+                :val _MEM_USAGE)
         )
     )
 )
@@ -145,13 +145,13 @@
             :limit-width "25" 
             :wrap "true" 
             :valign "start" 
-            :text HOUR)
+            :text _HOUR)
         (label
             :class "time_min"
             :limit-width "25"
             :wrap "true"
             :valign "end"
-            :text MIN)
+            :text _MIN)
         (box
             :orientation "v"
             :spacing "25"
@@ -160,13 +160,13 @@
                 :halign "end"
                 :wrap "true"
                 :limit-width "25"
-                :text MER)
+                :text _MER)
             (label
                 :class "time_day"
                 :halign "end"
                 :wrap "true"
                 :limit-width "25"
-                :text DAY) ) ))
+                :text _DAY) ) ))
 
 (defwindow clock
     :class "widget"
@@ -207,13 +207,13 @@
                     :halign "start"
                     :wrap "true"
                     :limit-width "25"
-                    :text UPHOUR)
+                    :text _UPHOUR)
                 (label
                     :class "upmin"
                     :halign "start"
                     :wrap "true"
                     :limit-width "25"
-                    :text UPMIN)
+                    :text _UPMIN)
             )
         )
     )
@@ -257,13 +257,13 @@
                 :class "song"
                 :wrap "true"
                 :limit-width "20"
-                :text SONG)
+                :text _SONG)
             (label 
                 :halign "center"
                 :class "artist"
                 :wrap "true"
                 :limit-width "15"
-                :text ARTIST)
+                :text _ARTIST)
             (box
                 :orientation "h"
                 :spacing "20"
@@ -310,7 +310,7 @@
                     :class "hdd_label"
                     :wrap true
                     :limit-width "15"
-                    :text FREE
+                    :text _FREE
                 )
             )
         )

@@ -3,55 +3,40 @@
 ;;;;;                          Left widget                              ;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defwidget __left []
+    (box
+        :class "topbar left"
+        :orientation "v"
+        :halign "start"
+        (button :tooltip "Firefox" 	:class "btn" :onclick "bash ~/.config/eww/scripts/menu r firefox-developer-edition" 	"(label :text )  | Firefox     ")
+        (button :tooltip "Thunderbird" 	:class "btn" :onclick "bash ~/.config/eww/scripts/menu r thunderbird"			"  | Mail        ")
+        (button :tooltip "Libre Office" :class "btn" :onclick "bash ~/.config/eww/scripts/menu r libreoffice" 			"  | Office      ")
+        (button :tooltip "GIMP" 	:class "btn" :onclick "bash ~/.config/eww/scripts/menu r gimp" 				"  | Gimp        ")
+        (button :tooltip "VS Code" 	:class "btn" :onclick "bash ~/.config/eww/scripts/menu r code" 				"  | VSCode      ")
+        (button :tooltip "Kitty" 	:class "btn" :onclick "bash ~/.config/eww/scripts/menu r kitty" 			"  | Kitty       ")
+        (button :tooltip "Alacritty" 	:class "btn" :onclick "bash ~/.config/eww/scripts/menu r alacritty"			"  | Alacritty   ")
+        (button :tooltip "Gummi" 	:class "btn" :onclick "bash ~/.config/eww/scripts/menu r gummi"				"  | Gummi       ")
+        (button :tooltip "Thunar"	:class "btn" :onclick "bash ~/.config/eww/scripts/menu r thunar"			"  | Filehandler ")
+        (button :tooltip "Discord"	:class "btn" :onclick "bash ~/.config/eww/scripts/menu r discord"			"  | Discord     ")
+        (button :tooltip "BirdFont"	:class "btn" :onclick "bash ~/.config/eww/scripts/menu r birdfont"			"  | Font manager")
+    )
+)
 (defwidget left []
     (box
         :class "topbar left"
         :orientation "h"
-        (button
-            :tooltip "Firefox"
-            :class "btn"
-            :onclick "bash ~/.config/eww/scripts/menu r firefox-developer-edition" "")
-        (button
-            :tooltip "Thunderbird"
-            :class "btn"
-            :onclick "bash ~/.config/eww/scripts/menu r thunderbird" "")
-        (button
-            :tooltip "Libre Office"
-            :class "btn"
-            :onclick "bash ~/.config/eww/scripts/menu r libreoffice" "") ;;FontAwesome UNICODE U+f15b
-        (button
-            :tooltip "GIMP"
-            :class "btn"
-            :onclick "bash ~/.config/eww/scripts/menu r gimp" "") ;;FontAwesome UNICODE U+f040
-        (button
-            :tooltip "VS Code"
-            :class "btn"
-            :onclick "bash ~/.config/eww/scripts/menu r code" "")
-        (button
-            :tooltip "Kitty"
-            :class "btn"
-            :onclick "bash ~/.config/eww/scripts/menu r kitty" "")
-        (button
-            :tooltip "Alacritty"
-            :class "btn"
-            :onclick "bash ~/.config/eww/scripts/menu r alacritty" "")
-        (button
-            :tooltip "Gummi"
-            :class "btn"
-            :onclick "bash ~/.config/eww/scripts/menu r gummi" "")
-        (button
-            :tooltip "Thunar"
-            :class "btn"
-            :onclick "bash ~/.config/eww/scripts/menu r thunar" "")
-        (button
-            :tooltip "Discord"
-            :class "btn"
-            :onclick "bash ~/.config/eww/scripts/menu r discord" "")
-        (button
-            :tooltip "BirdFont"
-            :class "btn"
-            :timeout "5s"
-            :onclick "bash ~/.config/eww/scripts/menu r birdfont" "")
+	    :valign "left"
+        (button :tooltip "Firefox"	:class "btn" :onclick "bash ~/.config/eww/scripts/menu r firefox-developer-edition" 	"")
+        (button :tooltip "Thunderbird"	:class "btn" :onclick "bash ~/.config/eww/scripts/menu r thunderbird" 			"")
+        (button :tooltip "Libre Office" :class "btn" :onclick "bash ~/.config/eww/scripts/menu r libreoffice" 			"")
+        (button :tooltip "GIMP"         :class "btn" :onclick "bash ~/.config/eww/scripts/menu r gimp" 				"")
+        (button :tooltip "VS Code"      :class "btn" :onclick "bash ~/.config/eww/scripts/menu r code" 				"")
+        (button :tooltip "Kitty"        :class "btn" :onclick "bash ~/.config/eww/scripts/menu r kitty" 			"")
+        (button :tooltip "Alacritty"    :class "btn" :onclick "bash ~/.config/eww/scripts/menu r alacritty" 			"")
+        (button :tooltip "Gummi"        :class "btn" :onclick "bash ~/.config/eww/scripts/menu r gummi" 			"")
+        (button :tooltip "Thunar"       :class "btn" :onclick "bash ~/.config/eww/scripts/menu r thunar" 			"")
+        (button :tooltip "Discord"      :class "btn" :onclick "bash ~/.config/eww/scripts/menu r discord" 			"")
+        (button :tooltip "BirdFont"     :class "btn" :onclick "bash ~/.config/eww/scripts/menu r birdfont" 			"")
     )
 )
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -59,17 +44,37 @@
 ;;;;;                         Center widget                             ;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defwidget center []
+(defwidget __center []
     (box
         :class "topbar center"
         :orientation "v"
-        timecombined))
+        __timecombined))
+(defwidget center []
+    (box
+        :class "topbar center"
+        :space-evenly false
+        :space 30
+        :orientation "h"
+        :halign "center"
+	:valign "center"
+        (reveal-on-hover
+            :revealvar date-reveal
+            :revealvar-name "date-reveal"
+            :transition "slidedown"
+	    :orientation "v"
+            (box time)
+            (box date)
+        )
+    )
+)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;                        Poll variables                             ;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defpoll timecombined :interval "5s" "date '+%H:%M  |  %d. %B, %Y'")
+(defpoll __timecombined :interval "5s" "date '+%H:%M  |  %d. %B, %Y'")
+(defpoll time :interval "5s" "date '+ %H:%M'" )
+(defpoll date :interval "1h" "date '+ %d. %B, %Y'")
 (defpoll cpu :interval "1s" "sh ~/.config/eww/scripts/sys_info --cpu")
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -80,25 +85,23 @@
     (box
         :class "topbar right"
         :orientation "h"
+	    (circular-progress :value {EWW_BATTERY.BAT0.capacity} :class "test" :thicknes 5 {EWW_BATTERY.BAT0.capacity} )
+        
         (metric
-            :label ""
+            :label ""
             :value {cpu}
             :onchange ""
-            :onclick "" )
+            :onclick "bash ~/.config/eww/scripts/menu r kitty htop" )
         (metric
             :label ""
             :value {EWW_RAM.used_mem_perc}
             :onchange ""
-            :onclick "" )
+            :onclick "bash ~/.config/eww/scripts/menu r kitty htop" )
         (metric 
             :label ""
             :value {round((1 - (EWW_DISK["/"].free / EWW_DISK["/"].total)) * 100, 0)}
             :onchange ""
             :onclick "bash ~/.config/eww/scripts/menu r thunar $HOME" )
-        (button
-            :tooltip "Change bg"
-            :class "btn"
-            :onclick "bash ~/.config/eww/scripts.menu sr" "BG")
         (button
             :tooltip "Power menu"
             :class "btn"
@@ -106,7 +109,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;                          Left window                              ;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defwindow left
     :windowtype "dock"
@@ -165,3 +168,31 @@
         :active {onchange != ""}
         :value value
         :onchange onchange)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;                        Revealer widget                            ;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defwidget reveal-on-hover [revealvar revealvar-name ?orientation ?class ?duration ?transition]
+    (box
+        :class "${class} reveal-on-hover"
+        :orientation "h"
+        :space-evenly false
+        (eventbox
+            :onhover "eww update ${revealvar-name}=true"
+            :onhoverlost "eww update ${revealvar-name}=false"
+            (box
+	        :orientation {orientation ?: "h"}
+                :space-evenly false
+                (children :nth 0)
+                (revealer
+                    :reveal revealvar
+                    :transition {transition ?: "slideright"}
+                    :duration {duration ?: "500ms"}
+                    (children :nth 1)
+                )
+            )        
+        )
+    )
+)

@@ -8,6 +8,13 @@
 (defvar logout-off "a")
 (defvar space "10")
 (defvar menu-active false)
+
+(defvar date-reveal false)
+(defvar menu-reveal false)
+
+(defvar power-rev false)
+(defvar reset-rev false)
+(defvar logout-rev false)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;                             Includes                              ;;;;;
@@ -15,5 +22,5 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (include "powermenu.yuck")
 (include "tray.yuck")
-(include "widget.yuck")
-(include "testing.yuck")
+;(include "widget.yuck")
+;(include "testing.yuck")

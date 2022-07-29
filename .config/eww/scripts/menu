@@ -1,22 +1,33 @@
 #!/bin/bash
 if [[ ! -f "eww" ]]; then
-    EWW=eww
+    EWW="eww"
 else
     EWW="$HOME/.bin/eww/eww"
 fi
 CONF="$HOME/.config/eww/config.cfg"
+
+if command -v xcompmgr &> /dev/null; then
+    COMPOSITOR="xcompmgr"
+elif command -v picom &> /dev/null; then
+    COMPOSITOR="picom"
+else
+    COMPOSITOR="NONE"
+fi
 
 launch(){
     RUNNING=$(echo "{line[@]}" | pidof eww )
     if [[ ! $RUNNING ]]; then
         ${EWW} daemon
     fi
-    RUNNING=$(echo "{line[@]}" | pidof xcompmgr )
-    if [[ ! $RUNNING ]]; then
-        xcompmgr &
+    if [[ $COMPOSITOR != "NONE" ]]; then
+        RUNNING=$(echo "{line[@]}" | pidof $COMPOSITOR )
+        if [[ ! $RUNNING ]]; then
+            $COMPOSITOR &
+        fi
+    else
+        echo "No compositor installed.."
     fi
-
-    setResolution
+    setBackground
 
     ${EWW} open-many left center right
 }
@@ -29,9 +40,13 @@ close(){
     ${EWW} close "$1"
 }
 
-# toggle(){
-#     # ${EWW} update
-# }
+toggle(){
+    # length of input str
+    STATE="$1"
+    LEN=${#STATE}
+    VAL=
+    ${EWW} update $STATE
+}
 
 close_all(){
     WIN=$(echo -n "{line[@]}" | ${EWW} windows | grep "*" | cut -c 2- | tr "\n" " " )
@@ -70,6 +85,17 @@ clearActive(){
     done
 }
 
+stateCheck(){
+    local __input=$1
+    local __length=$(expr length $__input)
+    local __result=$(echo "{line[@]}" | ${EWW} state -a | grep ${__input} | cut -c ( expr length $__input + 1 )- )
+    echo $__input $__length
+}
+
+setBackground(){
+    sh ~/scripts/.fehbg
+}
+
 setResolution(){
     if [[ ! -f "$CONF" ]]; then
         echo "Resolutions: 1280x720 | 1280x1024 | 1920x1440 | 1920x1080 | 2560x1440"
@@ -82,6 +108,7 @@ setResolution(){
     sh ~/scripts/.fehbg
     ${EWW} reload
 }
+
 case "$@" in
     "start" | "launch" | "setup")
         launch;;
@@ -114,7 +141,7 @@ case "$@" in
         update ml
         close logout-off;;
     "sr")
-        setResolution;;
+        setBackground;;
 esac
 
 case "$1" in
@@ -129,6 +156,8 @@ case "$1" in
         close "${@:2}";;
     "u")
         update "${@:2}";;
+    "t")
+        stateCheck "${@:2}";;
 esac
 
 exit;
